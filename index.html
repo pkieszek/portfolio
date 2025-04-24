@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio CV – cybernomad42</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-y: auto;
+    }
+
+    #intro {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      opacity: 1;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .pill {
+      width: 40px;
+      height: 80px;
+      border-radius: 40px;
+      display: inline-block;
+      margin: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #00ff00;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: float 2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) rotateZ(0deg); }
+      50% { transform: translateY(-10px) rotateZ(2deg); }
+      100% { transform: translateY(0) rotateZ(0deg); }
+    }
+
+    .pill:hover {
+      transform: scale(1.1);
+    }
+
+    .pill.red {
+      background: radial-gradient(circle at 30% 30%, #ff4c4c, #8b0000);
+      box-shadow: 0 0 20px red;
+    }
+
+    .pill.blue {
+      background: radial-gradient(circle at 30% 30%, #4c4cff, #00008b);
+      box-shadow: 0 0 20px blue;
+    }
+
+    #terminal {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: black;
+      padding: 30px;
+      font-size: 18px;
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 20px #00ff00;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    #matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .prompt {
+      color: red;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    #terminal-line {
+      display: flex;
+      align-items: center;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 18px;
+      color: red;
+      background: black;
+      border-top: 1px solid #00ff00;
+      padding: 10px;
+      width: 100%;
+    }
+
+    .cursor:focus {
+      outline: none;
+    }
+
+    .cursor::after {
+      content: '|';
+      animation: blink 1s steps(1) infinite;
+      color: red;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+  </style>
+  <audio id="type-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-retro-typewriter-2534.mp3" preload="auto"></audio>
+  <audio id="enter-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1126.mp3" preload="auto"></audio>
+</head>
+<body>
+  <div id="intro">
+    <h1>Welcome to my personal portfolio</h1>
+    <p>Are you ready?</p>
+    <p>Enter</p>
+    <div class="pill red" onclick="choosePill('red')"></div>
+    <div class="pill blue" onclick="choosePill('blue')"></div>
+  </div>
+
+  <div id="terminal">
+    <p>> Type a command: <strong>about</strong>, <strong>projects</strong>, <strong>cat portfolio.pdf</strong>, <strong>contact</strong>, <strong>cv</strong>, <strong>recommendations</strong>, <strong>clear</strong> — or <code>-h</code> for help <em>(hidden commands also available – explore!)</em></p>
+    <p id="terminal-output"></p>
+    <div id="terminal-line"><span class="prompt">#</span><span class="cursor" contenteditable="true" id="terminal-input"></span></div>
+  </div>
+
+  <canvas id="matrix"></canvas>
+
+  <script>
+    function choosePill(color) {
+      document.getElementById('type-sound').play().catch(() => {});
+      document.getElementById('enter-sound').play().catch(() => {});
+      document.getElementById('intro').style.opacity = 0;
+      setTimeout(() => {
+        if (color === 'red') {
+          document.getElementById('intro').style.display = 'none';
+          document.getElementById('terminal').style.display = 'block';
+          simulateTerminal();
+        } else {
+          document.getElementById('intro').style.display = 'none';
+          window.location.href = "https://www.linkedin.com/in/patrykkieszek/";
+        }
+      }, 1000);
+    }
+
+    function simulateTerminal() {
+      const terminal = document.getElementById('terminal');
+      const output = document.getElementById('terminal-output');
+      const input = document.getElementById('terminal-input');
+
+      input.focus();
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('enter-sound').play();
+          const command = input.innerText.trim().toLowerCase();
+          output.innerHTML += `&gt; ${command}<br/>`;
+          input.innerText = '';
+
+          switch (command) {
+            case 'download cv':
+              output.innerHTML += 'Preparing download: Patryk_Kieszek_CV_en.pdf<br/>';
+              const cvLink = document.createElement('a');
+              cvLink.href = 'Patryk_Kieszek_CV_en.pdf';
+              cvLink.download = 'Patryk_Kieszek_CV_en.pdf';
+              cvLink.style.display = 'none';
+              document.body.appendChild(cvLink);
+              cvLink.click();
+              document.body.removeChild(cvLink);
+              output.innerHTML += '✅ CV download started.<br/><br/>';
+              break;
+            case 'download portfolio':
+              output.innerHTML += 'Preparing download: WebAppX.pdf<br/>';
+              const portfolioLink = document.createElement('a');
+              portfolioLink.href = 'WebAppX.pdf';
+              portfolioLink.download = 'WebAppX.pdf';
+              portfolioLink.style.display = 'none';
+              document.body.appendChild(portfolioLink);
+              portfolioLink.click();
+              document.body.removeChild(portfolioLink);
+              output.innerHTML += '✅ Portfolio download started.<br/><br/>';
+              break;
+            case 'recommendations':
+              output.innerHTML += '<br/>Loading professional recommendations...<br/><br/>';
+
+              const recWrapper = document.createElement('div');
+              recWrapper.style.marginTop = '20px';
+              recWrapper.style.padding = '15px';
+              recWrapper.style.border = '1px solid #00ff00';
+              recWrapper.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+              recWrapper.style.fontFamily = 'Courier New, monospace';
+              recWrapper.style.maxHeight = '300px';
+              recWrapper.style.overflowY = 'auto';
+
+              recWrapper.innerHTML = `
+  <h3 style="color:#00ff00; text-align:center;">Professional Recommendations</h3>
+  <p><span style="color:cyan;">Karol Obrebski</span> (Client @ CargoAssistant)</p>
+  <p>I had the pleasure of working with Patryk Kieszek during a security audit of our web application CargoAssistant as part of our SOC2/ISO27001 compliance preparation.
+  Patryk performed external penetration tests and delivered a detailed, well-structured report with clear explanations and actionable recommendations.
+  He demonstrated excellent communication skills, technical expertise, and a deep understanding of web application security.
+  Thanks to his input, we were able to fix multiple vulnerabilities and significantly strengthen our security posture.
+  I highly recommend Patryk to any organization looking for a skilled and reliable cybersecurity consultant.</p>
+
+  <p><span style="color:yellow;">Alexander Sadowski</span> (Mentor @ SoftServe)</p>
+  <p>I'm more than happy to recommend Patryk for any junior cybersecurity/DevOps-related positions. Though not his direct supervisor, I've been impressed by his genuine enthusiasm for cybersecurity, DevOps, and IT in general.
+  Patryk demonstrates an exceptional eagerness to learn and develop professionally. His dedication to building knowledge in these technical domains speaks to his commitment and potential in the field.
+  Any organization seeking motivated junior talent would benefit from Patryk's positive attitude and clear passion not only for the IT, but also foreign languages that he can use professionally at work.
+  He definitely has the foundation needed to grow into a valuable IT professional!</p>
+
+  <p><span style="color:magenta;">Bartosz P. Krok</span> (Peer @ 42 Warsaw)</p>
+  <p>Poznałem Patryka w 42 Warsaw, gdzie zamiast standardowych zadań z języka C podjęliśmy wyzwanie „wyrwania się” z maszyny wirtualnej i zdobycia uprawnień root’a („getroot achievement").
+  Trudno o lepszy dowód na to, że red-teaming to nie tylko jego umiejętność, ale i prawdziwa pasja, która (podobnie jak mi) sprawia mu frajdę.
+  Patryk dobrze radzi sobie z pentestingiem – potrafi skutecznie identyfikować podatności i wie, jak szukać luk.
+  W 42 pisze feedbacki i streszczenia projektów, więc na pewno dobrze radzi sobie także z tworzeniem raportów z testów bezpieczeństwa i analizą ryzyka.
+  Jeśli ktoś szuka kompetentnego pentestera, który nie tylko znajduje podatności, ale też rozumie ich konsekwencje – zdecydowanie polecam Patryka!</p>
+              `;
+
+              output.appendChild(recWrapper);
+
+              const typeAnim = document.createElement('div');
+              typeAnim.style.marginTop = '10px';
+              typeAnim.style.color = '#00ff00';
+              typeAnim.style.fontFamily = 'Courier New, monospace';
+              typeAnim.style.animation = 'typing 3s steps(40, end) 1';
+              typeAnim.textContent = '>>> Typing recommendations... complete.';
+              output.appendChild(typeAnim);
+
+              terminal.scrollTop = terminal.scrollHeight;
+              break;
+            case 'about':
+              output.innerHTML += `
+                🔐 <strong>Junior Penetration Tester | Web & Network Security | Real-World Security Audits</strong><br/><br/>
+                I’m a cybersecurity professional with hands-on experience in penetration testing, vulnerability assessments, and security audits for real-world clients and platforms.<br/><br/>
+                After completing a full web application security audit, I continue sharpening my skills through practical labs, CTFs, and offensive security challenges.<br/>
+                I'm currently ranked in the <strong>Top 5%</strong> on TryHackMe, where I explore real-world attack simulations, OSINT reconnaissance, and vulnerability exploitation.<br/><br/>
+                💰 I also participate in bug bounty programs on HackerOne, reporting real vulnerabilities in production systems — including client-side and session security issues.<br/><br/>
+                📚 Currently pursuing <strong>eJPT</strong> and <strong>Security+</strong> certifications to deepen my expertise in ethical hacking and technical auditing.<br/><br/>
+                ⚒️ <strong>Core Skills:</strong><br/>
+                – Web & Network Pentesting, Security Audits<br/>
+                – Burp Suite, Nmap, Metasploit, SQLmap, Hydra, Wireshark<br/>
+                – OSINT with Shodan, Google Dorking, Maltego<br/>
+                – Scripting: Python, Bash, PowerShell<br/>
+                – Kali Linux, Ubuntu, Windows<br/>
+                – Certifications: eJPT (in progress), Security+ (in progress)<br/>
+                – Bug Bounty Hunter (HackerOne) 🪲<br/><br/>
+                🤝 <strong>Open to remote freelance missions or junior pentesting roles.</strong><br/>
+                GitHub: <a href="https://github.com/pkieszek" target="_blank">github.com/pkieszek</a><br/>
+                TryHackMe: <a href="https://tryhackme.com/p/pkieszek" target="_blank">tryhackme.com/p/pkieszek</a><br/>
+                Instagram: @CyberNomad42__<br/><br/>
+              `;
+              break;
+            case 'projects':
+              output.innerHTML += 'Check out my GitHub: <a href="https://github.com/pkieszek" target="_blank">github.com/pkieszek</a><br/><br/>';
+              break;
+            case 'cat portfolio.pdf':
+              output.innerHTML += 'Loading portfolio audit report...<br/>';
+              const loadingIdPortfolio = 'portfolio-loading';
+              const loadingElPortfolio = document.createElement('div');
+              loadingElPortfolio.id = loadingIdPortfolio;
+              loadingElPortfolio.style.marginTop = '10px';
+              loadingElPortfolio.style.color = '#00ff00';
+              loadingElPortfolio.style.fontFamily = 'Courier New, monospace';
+              loadingElPortfolio.textContent = 'Loading █';
+              output.appendChild(loadingElPortfolio);
+
+              let progressPortfolio = 0;
+              const loadingIntervalPortfolio = setInterval(() => {
+                progressPortfolio++;
+                loadingElPortfolio.textContent += '█';
+                if (progressPortfolio > 10) {
+                  clearInterval(loadingIntervalPortfolio);
+                  loadingElPortfolio.remove();
+
+                  const existingProjectEmbed = document.getElementById('projects-embed');
+                  if (!existingProjectEmbed) {
+                    const embed = document.createElement('embed');
+                    embed.src = 'WebAppX.pdf';
+                    embed.type = 'application/pdf';
+                    embed.id = 'projects-embed';
+                    embed.style.width = '100%';
+                    embed.style.height = '80vh';
+                    embed.style.marginTop = '20px';
+                    embed.style.border = '2px solid #00ff00';
+                    output.appendChild(embed);
+                  }
+                }
+              }, 100);
+              break;
+            case 'contact':
+              output.innerHTML += 'Email me at: cybernomad42@gmail.com<br/><br/>';
+              break;
+            case 'cv':
+              output.innerHTML += 'Loading CV...<br/>';
+              const loadingId = 'cv-loading';
+              const loadingEl = document.createElement('div');
+              loadingEl.id = loadingId;
+              loadingEl.style.marginTop = '10px';
+              loadingEl.style.color = '#00ff00';
+              loadingEl.style.fontFamily = 'Courier New, monospace';
+              loadingEl.textContent = 'Loading █';
+              output.appendChild(loadingEl);
+
+              let progress = 0;
+              const loadingInterval = setInterval(() => {
+                progress++;
+                loadingEl.textContent += '█';
+                if (progress > 10) {
+                  clearInterval(loadingInterval);
+                  loadingEl.remove();
+
+                  const existingEmbed = document.getElementById('cv-embed');
+                  if (!existingEmbed) {
+                    const embed = document.createElement('embed');
+                    embed.src = 'Patryk_Kieszek_CV_en.pdf';
+                    embed.type = 'application/pdf';
+                    embed.id = 'cv-embed';
+                    embed.style.width = '100%';
+                    embed.style.height = '80vh';
+                    embed.style.marginTop = '20px';
+                    embed.style.border = '2px solid #00ff00';
+                    output.appendChild(embed);
+
+                    // Add recommendations after CV
+                    const recWrapper = document.createElement('div');
+                    recWrapper.style.marginTop = '40px';
+                    recWrapper.style.padding = '15px';
+                    recWrapper.style.border = '1px solid #00ff00';
+                    recWrapper.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                    recWrapper.style.fontFamily = 'Courier New, monospace';
+                    recWrapper.style.maxHeight = '300px';
+                    recWrapper.style.overflowY = 'auto';
+
+                    recWrapper.innerHTML = `
+  <h3 style="color:#00ff00; text-align:center;">Professional Recommendations</h3>
+  <p><span style="color:cyan;">Karol Obrebski</span> (Client @ CargoAssistant)</p>
+  <p>I had the pleasure of working with Patryk Kieszek during a security audit of our web application CargoAssistant as part of our SOC2/ISO27001 compliance preparation.
+  Patryk performed external penetration tests and delivered a detailed, well-structured report with clear explanations and actionable recommendations.
+  He demonstrated excellent communication skills, technical expertise, and a deep understanding of web application security.
+  Thanks to his input, we were able to fix multiple vulnerabilities and significantly strengthen our security posture.
+  I highly recommend Patryk to any organization looking for a skilled and reliable cybersecurity consultant.</p>
+
+  <p><span style="color:yellow;">Alexander Sadowski</span> (Mentor @ SoftServe)</p>
+  <p>I'm more than happy to recommend Patryk for any junior cybersecurity/DevOps-related positions. Though not his direct supervisor, I've been impressed by his genuine enthusiasm for cybersecurity, DevOps, and IT in general.
+  Patryk demonstrates an exceptional eagerness to learn and develop professionally. His dedication to building knowledge in these technical domains speaks to his commitment and potential in the field.
+  Any organization seeking motivated junior talent would benefit from Patryk's positive attitude and clear passion not only for the IT, but also foreign languages that he can use professionally at work.
+  He definitely has the foundation needed to grow into a valuable IT professional!</p>
+
+  <p><span style="color:magenta;">Bartosz P. Krok</span> (Peer @ 42 Warsaw)</p>
+  <p>Poznałem Patryka w 42 Warsaw, gdzie zamiast standardowych zadań z języka C podjęliśmy wyzwanie „wyrwania się” z maszyny wirtualnej i zdobycia uprawnień root’a („getroot achievement").
+  Trudno o lepszy dowód na to, że red-teaming to nie tylko jego umiejętność, ale i prawdziwa pasja, która (podobnie jak mi) sprawia mu frajdę.
+  Patryk dobrze radzi sobie z pentestingiem – potrafi skutecznie identyfikować podatności i wie, jak szukać luk.
+  W 42 pisze feedbacki i streszczenia projektów, więc na pewno dobrze radzi sobie także z tworzeniem raportów z testów bezpieczeństwa i analizą ryzyka.
+  Jeśli ktoś szuka kompetentnego pentestera, który nie tylko znajduje podatności, ale też rozumie ich konsekwencje – zdecydowanie polecam Patryka!</p>
+                    `;
+
+                    output.appendChild(recWrapper);
+                  }
+                }
+              }, 100);
+              break;
+            case 'help':
+              output.innerHTML += 'Available commands:<br/>';
+              output.innerHTML += '- about<br/>';
+              output.innerHTML += '- projects<br/>';
+              output.innerHTML += '- cat portfolio.pdf<br/>';
+              output.innerHTML += '- contact<br/>';
+              output.innerHTML += '- cv<br/>';
+              output.innerHTML += '- recommendations<br/>';
+              output.innerHTML += '- clear<br/>';
+              output.innerHTML += '- download cv<br/>';
+              output.innerHTML += '- download portfolio<br/>';
+              output.innerHTML += '- -h (this help message)<br/>';
+              output.innerHTML += '<br/><em>* Bonus commands:</em><br/>';
+              output.innerHTML += '- sudo -l<br/>';
+              output.innerHTML += '- ascii<br/>';
+              output.innerHTML += '- ps aux<br/>';
+              output.innerHTML += '- git log<br/>';
+              output.innerHTML += '- rm -rf /<br/>';
+              output.innerHTML += '- ssh root@cybernomad42<br/>';
+              output.innerHTML += '- hack<br/>';
+              output.innerHTML += '- whoami<br/>';
+              break;
+            case '-h':
+              output.innerHTML += 'Available commands:<br/>';
+              output.innerHTML += '- about<br/>';
+              output.innerHTML += '- projects<br/>';
+              output.innerHTML += '- cat portfolio.pdf<br/>';
+              output.innerHTML += '- contact<br/>';
+              output.innerHTML += '- cv<br/>';
+              output.innerHTML += '- recommendations<br/>';
+              output.innerHTML += '- clear<br/>';
+              output.innerHTML += '- download cv<br/>';
+              output.innerHTML += '- download portfolio<br/>';
+              // output.innerHTML += '- quit (return to intro screen)<br/>';
+              output.innerHTML += '- -h (this help message)<br/>';
+              output.innerHTML += '<br/><em>* Bonus commands:</em><br/>';
+              output.innerHTML += '- sudo -l<br/>';
+              output.innerHTML += '- ascii<br/>';
+              output.innerHTML += '- ps aux<br/>';
+              output.innerHTML += '- git log<br/>';
+              output.innerHTML += '- rm -rf /<br/>';
+              output.innerHTML += '- ssh root@cybernomad42<br/>';
+              output.innerHTML += '- hack<br/>';
+              output.innerHTML += '- whoami<br/>';
+              break;
+            case 'sudo -l':
+              output.innerHTML += 'Matching Defaults entries for guest on matrix:\n';
+              output.innerHTML += '    env_reset, mail_badpass,\n';
+              output.innerHTML += '    secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin\n';
+              output.innerHTML += '\nUser guest may run the following commands on matrix:\n';
+              output.innerHTML += '    (ALL) NOPASSWD: ALL<br/><br/>';
+              break;
+
+            case 'ascii':
+              output.innerHTML += `
+  <pre style="color: #00ff00;">
+      .-"      "-.
+     /            \\
+    |              |
+    |,  .-.  .-.  ,|
+    | )(_o/  \\o_)( |
+    |/     /\\     \\|
+    (_     ^^     _)
+     \\__|IIIIII|__/
+      | \\IIIIII/ |
+      \\          /
+       \`.______.' 
+  </pre><br/>`;
+              break;
+
+            case 'ps aux':
+              output.innerHTML += `
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND<br/>
+root         1  0.0  0.1  22528  1580 ?        Ss   09:00   0:00 /bin/bash<br/>
+guest     1337  0.1  1.0  76388 10512 ?        S    09:01   0:05 burp_suite<br/>
+guest     1338  0.2  2.5 105000 20512 ?        S    09:02   0:10 nmap -sV target<br/>
+guest     1339  0.3  1.7  89300 15000 ?        S    09:03   0:15 bash rev_shell.sh<br/><br/>`;
+              break;
+
+            case 'git log':
+              output.innerHTML += `
+commit e1f6a7c - fix: removed all security<br/>
+commit a9f8b7d - feat: added vulnerabilities<br/>
+commit b3c1d2e - chore: updated README to include 'hacking complete'<br/><br/>`;
+              break;
+
+            case 'rm -rf /':
+              output.innerHTML += 'Warning: Nice try, Neo... but this simulation is read-only. 😉<br/><br/>';
+              break;
+            case 'whoami':
+              output.innerHTML += 'guest<br/><br/>';
+              break;
+            case 'clear':
+              output.innerHTML = '';
+              break;
+            case 'hack':
+              output.innerHTML += 'Initiating hack protocol...<br/><br/>';
+              document.getElementById('terminal').style.display = 'none';
+
+              const floodCanvas = document.createElement('canvas');
+              floodCanvas.id = 'flood-matrix';
+              document.body.appendChild(floodCanvas);
+
+              const floodCtx = floodCanvas.getContext('2d');
+              floodCanvas.style.position = 'fixed';
+              floodCanvas.style.top = 0;
+              floodCanvas.style.left = 0;
+              floodCanvas.style.width = '100%';
+              floodCanvas.style.height = '100%';
+              floodCanvas.width = window.innerWidth;
+              floodCanvas.height = window.innerHeight;
+              floodCanvas.style.zIndex = 9999;
+
+              const floodColumns = floodCanvas.width / fontSize;
+              const floodDrops = Array.from({ length: floodColumns }, () => 1);
+
+              function drawFlood() {
+                floodCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+                floodCtx.fillRect(0, 0, floodCanvas.width, floodCanvas.height);
+                floodCtx.fillStyle = '#0F0';
+                floodCtx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < floodDrops.length; i++) {
+                  const text = letters[Math.floor(Math.random() * letters.length)];
+                  floodCtx.fillText(text, i * fontSize, floodDrops[i] * fontSize);
+
+                  if (floodDrops[i] * fontSize > floodCanvas.height && Math.random() > 0.975) {
+                    floodDrops[i] = 0;
+                  }
+                  floodDrops[i]++;
+                }
+              }
+
+              setTimeout(() => {
+                const messageOverlay = document.createElement('div');
+                messageOverlay.style.position = 'fixed';
+                messageOverlay.style.top = 0;
+                messageOverlay.style.left = 0;
+                messageOverlay.style.width = '100%';
+                messageOverlay.style.height = '100%';
+                messageOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+                messageOverlay.style.color = '#00ff00';
+                messageOverlay.style.display = 'flex';
+                messageOverlay.style.flexDirection = 'column';
+                messageOverlay.style.justifyContent = 'center';
+                messageOverlay.style.alignItems = 'center';
+                messageOverlay.style.fontSize = '24px';
+                messageOverlay.style.fontFamily = 'Courier New, monospace';
+                messageOverlay.style.zIndex = 10000;
+                messageOverlay.innerHTML = "<p>System override...</p><p>You've passed the simulation.</p>";
+
+                document.body.appendChild(messageOverlay);
+              }, 5000);
+
+              setInterval(drawFlood, 33);
+              break;
+            case 'ssh root@cybernomad42':
+              output.innerHTML += `Connecting to cybernomad42...<br/>`;
+              setTimeout(() => {
+                output.innerHTML += `Welcome to cybernomad42 OS [version 4.2.0]<br/>`;
+                output.innerHTML += `root@cybernomad42:~# access_granted<br/><br/>`;
+                output.innerHTML += `root@cybernomad42:~# ls<br/>`;
+                output.innerHTML += `-rw-r--r--  1 root  cybernomad  4096  portfolio.pdf<br/>`;
+                output.innerHTML += `-rw-r--r--  1 root  cybernomad  1337  secrets.txt<br/>`;
+                output.innerHTML += `drwxr-xr-x  5 root  cybernomad  1024  .tryhackme/<br/><br/>`;
+                output.innerHTML += `root@cybernomad42:~# cat secrets.txt<br/>`;
+                output.innerHTML += `flag{you_just_unlocked_the_cybernomad42_mode} 🧠<br/><br/>`;
+                terminal.scrollTop = terminal.scrollHeight;
+              }, 1500);
+              break;
+            default:
+              output.innerHTML += 'Unknown command. Try for example: contact or -h<br/><br/>';
+              break;
+          }
+
+          terminal.scrollTop = terminal.scrollHeight;
+        } else {
+          document.getElementById('type-sound').play();
+        }
+      });
+    }
+
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチッヂヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+
+    const drops = Array.from({ length: columns }, () => 1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 33);
+  </script>
+</body>
+</html>
