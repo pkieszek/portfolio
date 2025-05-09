@@ -128,7 +128,7 @@
   </div>
 
   <div id="terminal">
-    <p>> Type a command: <strong>about</strong>, <strong>projects</strong>, <strong>cat portfolio.pdf</strong>, <strong>contact</strong>, <strong>cv</strong>, <strong>recommendations</strong>, <strong>clear</strong> — or <code>-h</code> for help <em>(hidden commands also available – explore!)</em></p>
+    <p>> Type a command: <strong>about</strong>, <strong>projects</strong>, <strong>cat portfolio.pdf</strong>, <strong>contact</strong>, <strong>cv</strong>, <strong>recommendations</strong>, <strong>certifications</strong>, <strong>clear</strong> — or <code>-h</code>/<code>help</code> for full list</p>
     <p id="terminal-output"></p>
     <div id="terminal-line"><span class="prompt">#</span><span class="cursor" contenteditable="true" id="terminal-input"></span></div>
   </div>
@@ -262,6 +262,9 @@
             case 'projects':
               output.innerHTML += 'Check out my GitHub: <a href="https://github.com/pkieszek" target="_blank">github.com/pkieszek</a><br/><br/>';
               break;
+            case 'portfolio':
+              command = 'cat portfolio.pdf';
+              // fall through
             case 'cat portfolio.pdf':
               output.innerHTML += 'Loading portfolio audit report...<br/>';
               const loadingIdPortfolio = 'portfolio-loading';
@@ -368,6 +371,46 @@
                 }
               }, 100);
               break;
+            case 'certifications':
+              output.innerHTML += 'Loading certifications...<br/>';
+              const loadingCert = document.createElement('div');
+              loadingCert.style.marginTop = '10px';
+              loadingCert.style.color = '#00ff00';
+              loadingCert.style.fontFamily = 'Courier New, monospace';
+              loadingCert.textContent = 'Loading █';
+              output.appendChild(loadingCert);
+
+              let certProgress = 0;
+              const loadingIntervalCert = setInterval(() => {
+                certProgress++;
+                loadingCert.textContent += '█';
+                if (certProgress > 10) {
+                  clearInterval(loadingIntervalCert);
+                  loadingCert.remove();
+
+                  const certEmbed = document.createElement('embed');
+                  certEmbed.src = 'Certificate EJPT.pdf';
+                  certEmbed.type = 'application/pdf';
+                  certEmbed.style.width = '100%';
+                  certEmbed.style.height = '80vh';
+                  certEmbed.style.marginTop = '20px';
+                  certEmbed.style.border = '2px solid #00ff00';
+                  certEmbed.id = 'cert-embed';
+                  output.appendChild(certEmbed);
+                }
+              }, 100);
+              break;
+            case 'download certifications':
+              output.innerHTML += 'Preparing download: Certificate EJPT.pdf<br/>';
+              const certLink = document.createElement('a');
+              certLink.href = 'Certificate EJPT.pdf';
+              certLink.download = 'Certificate EJPT.pdf';
+              certLink.style.display = 'none';
+              document.body.appendChild(certLink);
+              certLink.click();
+              document.body.removeChild(certLink);
+              output.innerHTML += '✅ Certification download started.<br/><br/>';
+              break;
             case 'help':
               output.innerHTML += 'Available commands:<br/>';
               output.innerHTML += '- about<br/>';
@@ -376,7 +419,9 @@
               output.innerHTML += '- contact<br/>';
               output.innerHTML += '- cv<br/>';
               output.innerHTML += '- recommendations<br/>';
+              output.innerHTML += '- certifications<br/>';
               output.innerHTML += '- clear<br/>';
+              output.innerHTML += '- download certifications<br/>';
               output.innerHTML += '- download cv<br/>';
               output.innerHTML += '- download portfolio<br/>';
               output.innerHTML += '- -h (this help message)<br/>';
@@ -398,7 +443,9 @@
               output.innerHTML += '- contact<br/>';
               output.innerHTML += '- cv<br/>';
               output.innerHTML += '- recommendations<br/>';
+              output.innerHTML += '- certifications<br/>';
               output.innerHTML += '- clear<br/>';
+              output.innerHTML += '- download certifications<br/>';
               output.innerHTML += '- download cv<br/>';
               output.innerHTML += '- download portfolio<br/>';
               // output.innerHTML += '- quit (return to intro screen)<br/>';
