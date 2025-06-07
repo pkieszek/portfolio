@@ -113,6 +113,38 @@
     }
 
   </style>
+  @media (max-width: 768px) {
+    #terminal {
+      width: 95%;
+      max-width: none;
+      padding: 15px;
+      font-size: 16px;
+    }
+
+    #terminal-line {
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 16px;
+    }
+
+    .cursor {
+      width: 100%;
+      word-break: break-word;
+    }
+
+    .prompt {
+      margin-bottom: 5px;
+    }
+
+    embed {
+      width: 100% !important;
+      height: 60vh !important;
+    }
+
+    #terminal p, #terminal-output {
+      word-break: break-word;
+    }
+  }
 </head>
   
   <audio id="type-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-retro-typewriter-2534.mp3" preload="auto"></audio>
@@ -239,25 +271,33 @@
               break;
             case 'about':
               output.innerHTML += `
-                🔐 <strong>Junior Penetration Tester | Web & Network Security | Real-World Security Audits</strong><br/><br/>
-                I’m a cybersecurity professional with hands-on experience in penetration testing, vulnerability assessments, and security audits for real-world clients and platforms.<br/><br/>
-                After completing a full web application security audit, I continue sharpening my skills through practical labs, CTFs, and offensive security challenges.<br/>
-                I'm currently ranked in the <strong>Top 5%</strong> on TryHackMe, where I explore real-world attack simulations, OSINT reconnaissance, and vulnerability exploitation.<br/><br/>
-                💰 I also participate in bug bounty programs on HackerOne, reporting real vulnerabilities in production systems — including client-side and session security issues.<br/><br/>
-                📚 Currently pursuing <strong>eJPT</strong> and <strong>Security+</strong> certifications to deepen my expertise in ethical hacking and technical auditing.<br/><br/>
-                ⚒️ <strong>Core Skills:</strong><br/>
-                – Web & Network Pentesting, Security Audits<br/>
-                – Burp Suite, Nmap, Metasploit, SQLmap, Hydra, Wireshark<br/>
-                – OSINT with Shodan, Google Dorking, Maltego<br/>
-                – Scripting: Python, Bash, PowerShell<br/>
-                – Kali Linux, Ubuntu, Windows<br/>
-                – Certifications: eJPT (in progress), Security+ (in progress)<br/>
-                – Bug Bounty Hunter (HackerOne) 🪲<br/><br/>
-                🤝 <strong>Open to remote freelance missions or junior pentesting roles.</strong><br/>
-                GitHub: <a href="https://github.com/pkieszek" target="_blank">github.com/pkieszek</a><br/>
-                TryHackMe: <a href="https://tryhackme.com/p/pkieszek" target="_blank">tryhackme.com/p/pkieszek</a><br/>
-                Instagram: @CyberNomad42__<br/><br/>
-              `;
+  <span style="color:#00ff00;">🔐 Junior Penetration Tester | Web & Network Security | Real-World Security Audits</span><br/><br/>
+  I’m a cybersecurity practitioner focused on offensive security, real-world audits, and ethical hacking.<br/><br/>
+  After delivering a full web application pentest for a live SaaS client, I continue sharpening my skills through practical labs, CTFs, and red team exercises. Ranked Top 5% on TryHackMe, I regularly work with OSINT, exploit development, and attack simulation.<br/><br/>
+  💰 I hunt bugs on platforms like HackerOne, where I disclosed critical session and client-side flaws in production environments — including bypassing WAFs.<br/><br/>
+  📜 Recently earned <span style="color:yellow;">eJPT</span> certification by INE/OffSec. Currently preparing for <span style="color:yellow;">Security+</span> to deepen foundational knowledge in audits and technical controls.<br/><br/>
+  ⸻<br/><br/>
+  <span style="color:cyan;">→ Open to freelance missions or a remote junior pentesting/security role.</span><br/><br/>
+  ⸻<br/><br/>
+  ⚒️ <span style="text-decoration: underline;">Skills & Tools</span><br/>
+  ✔️ Web & Network Pentesting · Burp Suite · Nmap · Metasploit · SQLmap<br/>
+  ✔️ OSINT & Recon · Shodan · Google Dorks · Maltego<br/>
+  ✔️ Scripting · Python · Bash · PowerShell<br/>
+  ✔️ Systems · Kali Linux · Windows · Ubuntu (Lab & VM work)<br/>
+  🏆 <span style="color:yellow;">eJPT Certified</span> · Security+ (in progress) · Top 5% TryHackMe<br/><br/>
+  ⸻<br/><br/>
+  🤝 <span style="text-decoration: underline;">Why Work With Me</span><br/>
+  ▸ Delivered public audit & pentest report<br/>
+  ▸ Remote-ready & async friendly<br/>
+  ▸ Offensive security mindset with real PoC delivery<br/>
+  ▸ Fast learner, highly adaptive<br/><br/>
+  ⸻<br/><br/>
+  <span style="color:#00ff00;">🌐 Connect</span><br/>
+  <a href="https://pkieszek.github.io/portfolio/" target="_blank">Portfolio</a> · 
+  <a href="https://github.com/pkieszek" target="_blank">GitHub</a> · 
+  <a href="https://tryhackme.com/p/pkieszek" target="_blank">TryHackMe</a> · 
+  @CyberNomad42__<br/><br/>
+  `;
               break;
             case 'projects':
               output.innerHTML += 'Check out my GitHub: <a href="https://github.com/pkieszek" target="_blank">github.com/pkieszek</a><br/><br/>';
