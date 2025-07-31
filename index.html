@@ -67,6 +67,8 @@
       box-shadow: 0 0 20px #00ff00;
       width: 80%;
       max-width: 600px;
+      overflow-y: auto;
+      max-height: 90vh;
     }
 
     #matrix {
@@ -242,33 +244,33 @@
               break;
             case 'about':
               output.innerHTML += `
-  <span style="color:#00ff00;">🔐 Junior Penetration Tester | Web & Network Security | Real-World Security Audits</span><br/><br/>
-  I’m a cybersecurity practitioner focused on offensive security, real-world audits, and ethical hacking.<br/><br/>
-  After delivering a full web application pentest for a live SaaS client, I continue sharpening my skills through practical labs, CTFs, and red team exercises. Ranked Top 5% on TryHackMe, I regularly work with OSINT, exploit development, and attack simulation.<br/><br/>
-  💰 I hunt bugs on platforms like HackerOne, where I disclosed critical session and client-side flaws in production environments — including bypassing WAFs.<br/><br/>
-  📜 Recently earned <span style="color:yellow;">eJPT</span> certification by INE/OffSec. Currently preparing for <span style="color:yellow;">Security+</span> to deepen foundational knowledge in audits and technical controls.<br/><br/>
-  ⸻<br/><br/>
-  <span style="color:cyan;">→ Open to freelance missions or a remote junior pentesting/security role.</span><br/><br/>
-  ⸻<br/><br/>
-  ⚒️ <span style="text-decoration: underline;">Skills & Tools</span><br/>
-  ✔️ Web & Network Pentesting · Burp Suite · Nmap · Metasploit · SQLmap<br/>
-  ✔️ OSINT & Recon · Shodan · Google Dorks · Maltego<br/>
-  ✔️ Scripting · Python · Bash · PowerShell<br/>
-  ✔️ Systems · Kali Linux · Windows · Ubuntu (Lab & VM work)<br/>
-  🏆 <span style="color:yellow;">eJPT Certified</span> · Security+ (in progress) · Top 5% TryHackMe<br/><br/>
-  ⸻<br/><br/>
-  🤝 <span style="text-decoration: underline;">Why Work With Me</span><br/>
-  ▸ Delivered public audit & pentest report<br/>
-  ▸ Remote-ready & async friendly<br/>
-  ▸ Offensive security mindset with real PoC delivery<br/>
-  ▸ Fast learner, highly adaptive<br/><br/>
-  ⸻<br/><br/>
-  <span style="color:#00ff00;">🌐 Connect</span><br/>
-  <a href="https://pkieszek.github.io/portfolio/" target="_blank">Portfolio</a> · 
-  <a href="https://github.com/pkieszek" target="_blank">GitHub</a> · 
-  <a href="https://tryhackme.com/p/pkieszek" target="_blank">TryHackMe</a> · 
-  @CyberNomad42__<br/><br/>
-  `;
+<span style="color:#00ff00;">🔐 Web & API Pentester | Cloud Security (AWS) | Real-World Security Audits</span><br/><br/>
+I believe cybersecurity is about more than protecting systems.  
+It’s about protecting people – their trust, their ideas, their businesses.  
+I do this work because I’ve seen how easy it is to exploit what’s exposed, and how hard it is to rebuild what’s lost.  
+
+I chose offensive security to stay ahead of that risk — and help build safer digital spaces with integrity, curiosity, and clarity.<br/><br/>
+
+I specialize in <strong>Web & API penetration testing</strong>, with growing expertise in <strong>cloud misconfigurations</strong> (AWS, EC2, IAM, S3, metadata) and internal network security.  
+I’ve performed real-world audits for modern SaaS platforms, delivering detailed OWASP-based reports and helping clients prepare for <strong>SOC 2</strong> and <strong>ISO 27001</strong> certification.<br/><br/>
+
+I regularly participate in <strong>bug bounty programs on HackerOne</strong>, where I’ve reported live vulnerabilities such as exposed credit card data in sessionStorage, authentication flaws, and WAF bypasses using JS Image() exfiltration.<br/><br/>
+
+🛠️ <strong>Tools & Skills:</strong><br/>
+Burp Suite · Nmap · ffuf · SQLi · IDOR · SSRF · LFI · logic flaws<br/>
+Shodan · Google Dorking · dnsenum · Python · Bash · PowerShell<br/>
+C/C++ (for low-level logic) · AWS IAM misconfigs · PoC scripting · Vulnerability chaining<br/><br/>
+
+🎓 I hold the <span style="color:yellow;">eJPTv2</span> and <span style="color:yellow;">ICCA</span> certifications, and I’m currently preparing for <span style="color:yellow;">CPTS (HTB)</span> and <span style="color:yellow;">OSCP</span>.<br/>
+I sharpen my skills daily through labs, CTFs, and research in active environments.<br/><br/>
+
+I’m also pursuing a <strong>Master’s in Cybersecurity</strong> and learning low-level programming through <strong>42 School</strong> (C, Bash, Python, C++), which helps me go deeper into how systems break and how to build better automation and logic in my assessments.<br/><br/>
+
+My work is rooted in methodology, but driven by impact — I focus on how a flaw can be abused, what it means to the business, and how to remediate it with context.<br/><br/>
+
+👨‍💻 Let’s connect if you’re building something worth protecting.<br/>
+GitHub: <a href="https://github.com/pkieszek" target="_blank">github.com/pkieszek</a><br/><br/>
+`;
               break;
             case 'projects':
               output.innerHTML += 'Check out my GitHub: <a href="https://github.com/pkieszek" target="_blank">github.com/pkieszek</a><br/><br/>';
