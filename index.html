@@ -162,6 +162,10 @@
       const output = document.getElementById('terminal-output');
       const input = document.getElementById('terminal-input');
 
+      // Command history for up/down navigation
+      let commandHistory = [];
+      let historyIndex = -1;
+
       input.focus();
 
       input.addEventListener('keydown', function (e) {
@@ -169,10 +173,25 @@
           e.preventDefault();
           document.getElementById('enter-sound').play();
           const command = input.innerText.trim().toLowerCase();
+          commandHistory.push(command);
+          historyIndex = -1;
           output.innerHTML += `&gt; ${command}<br/>`;
           input.innerText = '';
 
           switch (command) {
+            case 'ls':
+              output.innerHTML += `
+<br/>
+about<br/>
+projects<br/>
+portfolio.pdf<br/>
+cv<br/>
+recommendations<br/>
+certifications<br/>
+contact<br/>
+help<br/><br/>
+`;
+              break;
             case 'download cv':
               output.innerHTML += 'Preparing download: Patryk_Kieszek_CV_en.pdf<br/>';
               const cvLink = document.createElement('a');
@@ -518,7 +537,7 @@ commit b3c1d2e - chore: updated README to include 'hacking complete'<br/><br/>`;
               output.innerHTML += 'Warning: Nice try, Neo... but this simulation is read-only. 😉<br/><br/>';
               break;
             case 'whoami':
-              output.innerHTML += 'guest<br/><br/>';
+              output.innerHTML += 'red_team_ops@cybernomad42 — authorized keys only 🔐<br/><br/>';
               break;
             case 'clear':
               output.innerHTML = '';
@@ -604,6 +623,23 @@ commit b3c1d2e - chore: updated README to include 'hacking complete'<br/><br/>`;
           }
 
           terminal.scrollTop = terminal.scrollHeight;
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (commandHistory.length > 0) {
+            if (historyIndex < commandHistory.length - 1) {
+              historyIndex++;
+            }
+            input.innerText = commandHistory[commandHistory.length - 1 - historyIndex];
+          }
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (historyIndex > 0) {
+            historyIndex--;
+            input.innerText = commandHistory[commandHistory.length - 1 - historyIndex];
+          } else {
+            historyIndex = -1;
+            input.innerText = '';
+          }
         } else {
           document.getElementById('type-sound').play();
         }
