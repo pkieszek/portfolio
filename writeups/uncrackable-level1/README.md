@@ -98,7 +98,7 @@ The app is launched in spawn mode so the script is loaded before `onCreate` runs
 frida -H host.docker.internal:27042 -f owasp.mstg.uncrackable1 -l hook.js
 ```
 
-With the hook in place the "Root detected!" dialog never appeared and the app showed its normal input screen. (The log line in the screenshot reads `root checks wylaczone`, which is Polish for "root checks disabled".)
+With the hook in place the "Root detected!" dialog never appeared and the app showed its normal input screen.
 
 ## Extracting the secret
 
